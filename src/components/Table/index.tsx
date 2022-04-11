@@ -43,7 +43,7 @@ export const Table:FC = () => {
           ))}
       </tbody>
     </table>
-    <div className={classes.pagination_container}><Pagination  page={page} onChange={handleChange}   count={todos.length / 5} variant="outlined" color="primary"/></div>
+    <div className={classes.pagination_container}><Pagination   page={page} onChange={handleChange}   count={todos.length / 5}  color="primary"/></div>
     
    </div>
     </Container>
