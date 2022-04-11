@@ -1,29 +1,25 @@
-import { Container } from "components/Container";
-import { useTodos } from "hooks/useTodos";
-import { FC, useEffect, useState } from "react";
+
+import { FC,  useState } from "react";
 import classes from './table.module.scss'
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { ITodo } from "types/todo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faClose } from '@fortawesome/free-solid-svg-icons'
 import { Pagination } from "@mui/material";
-export const Table:FC = () => {
+
+interface TableProps {
+    todos:ITodo[]
+}
+
+export const Table:FC<TableProps> = ({todos}) => {
     const [page, setPage] = useState(1);
-    const {todos,loading,fetchData} = useTodos()
-   
-      useEffect(() => {
-           fetchData()
-      },[])
+    
       const handleChange = (event:any, value:number) => {
-          console.log(value);
-          
         setPage(value);
       };
      
-    return <Container>
+    return <>
         <div className={classes.table_container}>
         <table className={classes.table}>
-            
       <thead>
         <tr className="karbon-semibold">
           <th  scope="col">user id</th>
@@ -43,8 +39,8 @@ export const Table:FC = () => {
           ))}
       </tbody>
     </table>
-    <div className={classes.pagination_container}><Pagination   page={page} onChange={handleChange}   count={todos.length / 5}  color="primary"/></div>
+    <div className={classes.pagination_container}><Pagination   page={page} onChange={handleChange}   count={parseInt((todos.length / 5).toFixed(0))}  color="primary"/></div>
     
    </div>
-    </Container>
+    </>
 }

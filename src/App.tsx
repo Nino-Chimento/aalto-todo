@@ -1,12 +1,13 @@
 import { Layout } from "components/Layout/Index";
-import { Table } from "components/Table";
+
+import { TodoView } from "Views/TodoView";
 
 
 function App() {
   return (
     < >
      <Layout>
-       <Table/>
+       <TodoView/>
        </Layout>
     </>
   );
