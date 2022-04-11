@@ -1,0 +1,27 @@
+@import '../theme/variables.scss';
+@import '../theme/font.scss';
+body {
+    font-family: KarbonRegular
+}
+.navbar{
+    background-color:$backgroundHeader ;
+    height: $heightHeader;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.footer {
+    display: flex;
+    align-items: center;
+    background-color:$backgroundFooter ;
+    height: $heightFooter;
+    width: 100%;
+    color: $white;
+}
+.main-container {
+    width: 80%;
+    margin: auto;
+}
+.karbon-semibold{
+    font-family: KarbonSemibold;
+}
