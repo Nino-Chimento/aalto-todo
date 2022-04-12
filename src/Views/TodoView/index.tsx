@@ -19,12 +19,10 @@ export const TodoView:FC = () => {
     const filterQuery =   (query:string) =>{
         setQuery(query)
         if(result.length > 0){
-            console.log('query');
-            
+           
             const response = result.filter((todo:ITodo) => todo.title.toLowerCase().includes(query.toLowerCase()));
             return setResult(response)
         } 
-        console.log('else');
         
         const response = todos.filter((todo:ITodo) => todo.title.toLowerCase().includes(query.toLowerCase()));
         return setResult(response)
