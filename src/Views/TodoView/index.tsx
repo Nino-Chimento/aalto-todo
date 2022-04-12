@@ -18,8 +18,13 @@ export const TodoView:FC = () => {
 
     const filterQuery =   (query:string) =>{
         setQuery(query)
+        if(result.length > 0){
+            const response = result.filter((todo:ITodo) => todo.title.toLowerCase().includes(query.toLowerCase()));
+            return setResult(response)
+        } 
         const response = todos.filter((todo:ITodo) => todo.title.toLowerCase().includes(query.toLowerCase()));
-        setResult(response)
+        return setResult(response)
+        
     }
 
     const handleCompleted = (completed:boolean) => {
@@ -43,11 +48,16 @@ export const TodoView:FC = () => {
             const response = todos.filter((todo:ITodo) => arrayId.includes(todo.id as never) || todo.id === id);
             setResult(response)
     }
+
+    const handleReset = () => {
+
+        setResult(todos)
+    } 
     
    
     
     return <div className={classes.todoView_container}>
-    <Filters todos={todos}  handleId={handleId} handleCompleted={handleCompleted} sendQuery={(query) => filterQuery(query)}/>
+    <Filters  handleReset={handleReset} todos={todos}  handleId={handleId} handleCompleted={handleCompleted} sendQuery={(query) => filterQuery(query)}/>
     <Table todos={result.length > 0 ? result: todos}/>
     </div>
 }

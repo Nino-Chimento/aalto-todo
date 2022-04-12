@@ -13,12 +13,14 @@ interface FiltersProps {
     sendQuery: (query:string) => void
     handleCompleted:(e:boolean) => void
     handleId:(id:never) => void
+    handleReset:() => void
     todos:ITodo[]
 }
 
-export const Filters:FC<FiltersProps> = ({sendQuery,handleCompleted,handleId,todos})=> {
+export const Filters:FC<FiltersProps> = ({sendQuery,handleCompleted,handleId,handleReset,todos})=> {
     const [query,setQuery] = useState('')
     const [completed,setCompleted] = useState(false)
+    const [idSelected,setIdSelected] =useState(0)
     const handleKeyDown= (e:any) => {
         if (e.key === 'Enter') {
             sendQuery(query);
@@ -30,7 +32,17 @@ export const Filters:FC<FiltersProps> = ({sendQuery,handleCompleted,handleId,tod
         handleCompleted(completed)
     }  
 
-    
+    const resetFilters = () => {
+        handleReset()
+        setQuery('')
+        setCompleted(false)
+        setIdSelected(0)
+     }
+
+     const handleIdSelected = (id:never) => {
+         setIdSelected(id)
+         handleId(id )
+     }
     
 
     return <div className={classes.filters_container}>
@@ -42,13 +54,13 @@ export const Filters:FC<FiltersProps> = ({sendQuery,handleCompleted,handleId,tod
              <FontAwesomeIcon icon={faSearch} color='white' size='1x' />
          </div>
          <div>
-             <input placeholder="Search" onChange={ (e) => setQuery(e.target.value)} onKeyDown={handleKeyDown}/>
+             <input value={query} placeholder="Search" onChange={ (e) => setQuery(e.target.value)} onKeyDown={handleKeyDown}/>
          </div>
         </div>
         <div >
             <div> <span className="karbon-semibold uppercase">Completed</span></div>
             <div className={classes.switch_container}>
-          <span className="karbon-semibold">{completed ? 'SI' : 'NO'}</span>  <Switch handleChange={handleSwitch}/>
+          <span className="karbon-semibold">{completed ? 'SI' : 'NO'}</span>  <Switch completed={completed}  handleChange={handleSwitch}/>
             </div>
         </div>
         <div className={classes.select_id}>
@@ -56,14 +68,16 @@ export const Filters:FC<FiltersProps> = ({sendQuery,handleCompleted,handleId,tod
             <div>
                 <Select
                 className={classes.select_component}
-                onChange={(e) =>handleId(e.target.value as never)}
+                onChange={(e) =>handleIdSelected(e.target.value as never)}
+                value={idSelected}
                 >
+                    <MenuItem value={''}></MenuItem>
                     {todos && todos.map((todo:ITodo) => <MenuItem value={todo.id}>{todo.id}</MenuItem>)}
                 </Select>
             </div>
         </div>
         <div className={classes.reset_filters}>
-          <span> Reset filters</span> 
+          <span onClick={resetFilters}> Reset filters</span> 
         </div>
     </div>
 }

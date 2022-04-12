@@ -3,12 +3,11 @@ import './switch.css';
 
 interface SwitchProps {
     handleChange:(e:boolean) => void
+    completed:boolean
 }
 
-export const Switch:FC<SwitchProps> = ({handleChange}) => {
+export const Switch:FC<SwitchProps> = ({handleChange,completed}) => {
     
-    
-
   return (
     <>
       <input
@@ -16,6 +15,7 @@ export const Switch:FC<SwitchProps> = ({handleChange}) => {
         id={`react-switch-new`}
         type="checkbox"
         onChange={(e) => handleChange(e.target.checked)}
+        checked={completed}
       />
       <label
         className="react-switch-label"
