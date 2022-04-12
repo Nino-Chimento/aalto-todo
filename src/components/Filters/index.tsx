@@ -20,7 +20,7 @@ interface FiltersProps {
 export const Filters:FC<FiltersProps> = ({sendQuery,handleCompleted,handleId,handleReset,todos})=> {
     const [query,setQuery] = useState('')
     const [completed,setCompleted] = useState(false)
-    const [idSelected,setIdSelected] =useState(0)
+    const [idSelected,setIdSelected] =useState('')
     const handleKeyDown= (e:any) => {
         if (e.key === 'Enter') {
             sendQuery(query);
@@ -36,7 +36,7 @@ export const Filters:FC<FiltersProps> = ({sendQuery,handleCompleted,handleId,han
         handleReset()
         setQuery('')
         setCompleted(false)
-        setIdSelected(0)
+        setIdSelected('')
      }
 
      const handleIdSelected = (id:never) => {
@@ -72,7 +72,7 @@ export const Filters:FC<FiltersProps> = ({sendQuery,handleCompleted,handleId,han
                 value={idSelected}
                 >
                     <MenuItem value={''}></MenuItem>
-                    {todos && todos.map((todo:ITodo) => <MenuItem value={todo.id}>{todo.id}</MenuItem>)}
+                    {todos && todos.map((todo:ITodo) => <MenuItem key={todo.id} value={+todo.id}>{todo.id}</MenuItem>)}
                 </Select>
             </div>
         </div>

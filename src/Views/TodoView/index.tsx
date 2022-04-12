@@ -19,9 +19,13 @@ export const TodoView:FC = () => {
     const filterQuery =   (query:string) =>{
         setQuery(query)
         if(result.length > 0){
+            console.log('query');
+            
             const response = result.filter((todo:ITodo) => todo.title.toLowerCase().includes(query.toLowerCase()));
             return setResult(response)
         } 
+        console.log('else');
+        
         const response = todos.filter((todo:ITodo) => todo.title.toLowerCase().includes(query.toLowerCase()));
         return setResult(response)
         
@@ -44,9 +48,9 @@ export const TodoView:FC = () => {
     };
 
     const handleId = (id:never) => {
-            setArrayId([...arrayId,id])
-            const response = todos.filter((todo:ITodo) => arrayId.includes(todo.id as never) || todo.id === id);
-            setResult(response)
+         setArrayId([...arrayId,id])
+         const response = todos.filter((todo:ITodo) => arrayId.includes(todo.id as never) || todo.id === id);
+         setResult(response)
     }
 
     const handleReset = () => {
