@@ -6,7 +6,7 @@
   padding: 5%;
   max-height: 420px;
   @media (max-width: $breakpoint-tablet) {
-    width: 100%;
+    width: auto;
     margin-bottom: 5%;
   }
   &_title {
@@ -41,12 +41,16 @@
 .switch_container {
   display: flex;
   align-items: center;
+  margin-top: 5px;
   span {
     color: #003479;
   }
 }
 .select_id {
   margin-top: 30px;
+  @media (max-width: $breakpoint-tablet) {
+    padding-bottom: 3%;
+  }
 }
 .select_component {
   margin-top: 10px;

@@ -6,9 +6,9 @@ import { ITodo } from "types/todo";
 import classes from "./todoView.module.scss";
 
 export const TodoView: FC = () => {
-  const { todos, loading, fetchData } = useTodos();
+  const { todos, fetchData } = useTodos();
   const [query, setQuery] = useState("");
-  const [result, setResult] = useState(todos);
+  const [result, setResult] = useState<ITodo[]>(todos);
   const [arrayId, setArrayId] = useState([]);
   const [todosCompleted, setTodosCompleted] = useState(false);
 
@@ -16,60 +16,47 @@ export const TodoView: FC = () => {
     fetchData();
   }, [todos]);
 
-  const filterQuery = (query: string) => {
-    setQuery(query);
-    if (result.length > 0) {
-      const response = result.filter((todo: ITodo) =>
+  useEffect(() => {
+    filterTodos();
+  }, [query, todosCompleted, arrayId]);
+  const filterTodos = () => {
+    let response: ITodo[] = todos;
+
+    if (query || todosCompleted || arrayId.length > 0) {
+      response = todos.filter((todo: ITodo) =>
         todo.title.toLowerCase().includes(query.toLowerCase())
       );
+      if (todosCompleted) {
+        response = response.filter((todo: ITodo) => todo.completed);
+      }
+      if (arrayId.length > 0) {
+        response = response.filter((todo: ITodo) =>
+          arrayId.includes(todo.id as never)
+        );
+      }
       return setResult(response);
     }
 
-    const response = todos.filter((todo: ITodo) =>
-      todo.title.toLowerCase().includes(query.toLowerCase())
-    );
-    return setResult(response);
+    setResult(response);
+  };
+
+  const filterQuery = (query: string) => {
+    setQuery(query);
   };
 
   const handleCompleted = (completed: boolean) => {
     setTodosCompleted(completed);
-    if (completed && result.length === 0) {
-      const response = todos.filter(
-        (todo: ITodo) => todo.completed === completed
-      );
-      setResult(response);
-    } else if (completed && result.length > 0) {
-      const response = result.filter(
-        (todo: ITodo) => todo.completed === completed
-      );
-      setResult(response);
-    } else if (!completed && !query) {
-      setResult(todos);
-    } else if (!completed && query) {
-      const response = todos.filter((todo: ITodo) =>
-        todo.title.toLowerCase().includes(query.toLowerCase())
-      );
-      setResult(response);
-    }
   };
 
   const handleId = (id: never) => {
     setArrayId([...arrayId, id]);
-    if (!query || todosCompleted) {
-      const response = todos.filter(
-        (todo: ITodo) => arrayId.includes(todo.id as never) || todo.id === id
-      );
-      return setResult(response);
-    } else {
-      const response = result.filter(
-        (todo: ITodo) => arrayId.includes(todo.id as never) || todo.id === id
-      );
-      return setResult(response);
-    }
   };
 
   const handleReset = () => {
     setResult(todos);
+    setQuery("");
+    setTodosCompleted(false);
+    setArrayId([]);
   };
 
   return (

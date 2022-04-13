@@ -9,5 +9,6 @@
   min-height: 630px;
   @media (max-width: $breakpoint-tablet) {
     flex-direction: column;
+    width: 100%;
   }
 }
