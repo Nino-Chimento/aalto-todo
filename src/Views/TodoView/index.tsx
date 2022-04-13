@@ -4,17 +4,19 @@ import { useTodos } from "hooks/useTodos";
 import { FC, useEffect, useState } from "react";
 import { ITodo } from "types/todo";
 import classes from "./todoView.module.scss";
+import { useMediaQuery } from "react-responsive";
+import { Modal } from "@mui/material";
 
 export const TodoView: FC = () => {
-  const { todos, fetchData } = useTodos();
+  const isMobile = useMediaQuery({
+    query: "(max-width: 768px)",
+  });
+  const { todos } = useTodos();
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<ITodo[]>(todos);
   const [arrayId, setArrayId] = useState([]);
   const [todosCompleted, setTodosCompleted] = useState(false);
-
-  useEffect(() => {
-    fetchData();
-  }, [todos]);
+  const [isVisibleFiltersMobile, setIsVisibleFiltersMobile] = useState(false);
 
   useEffect(() => {
     filterTodos();
@@ -61,13 +63,39 @@ export const TodoView: FC = () => {
 
   return (
     <div className={classes.todoView_container}>
-      <Filters
-        handleReset={handleReset}
-        todos={todos}
-        handleId={handleId}
-        handleCompleted={handleCompleted}
-        sendQuery={(query) => filterQuery(query)}
-      />
+      {isMobile ? (
+        <>
+          <span
+            onClick={() => setIsVisibleFiltersMobile(!isVisibleFiltersMobile)}
+            className="karbon-semibold uppercase"
+          >
+            Filters
+          </span>
+        </>
+      ) : (
+        <Filters
+          handleReset={handleReset}
+          todos={todos}
+          handleId={handleId}
+          handleCompleted={handleCompleted}
+          sendQuery={(query) => filterQuery(query)}
+          isMobile={isMobile}
+        />
+      )}
+      {isMobile && isVisibleFiltersMobile && (
+        <Modal open={isVisibleFiltersMobile}>
+          <Filters
+            isMobile={isMobile}
+            handleReset={handleReset}
+            todos={todos}
+            handleId={handleId}
+            handleCompleted={handleCompleted}
+            sendQuery={(query) => filterQuery(query)}
+            handleClose={() => setIsVisibleFiltersMobile(false)}
+          />
+        </Modal>
+      )}
+
       <Table todos={result.length > 0 ? result : todos} />
     </div>
   );

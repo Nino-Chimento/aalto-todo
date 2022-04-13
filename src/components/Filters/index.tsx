@@ -1,4 +1,8 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClose,
+  faSearch,
+  faWindowClose,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Select } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
@@ -14,7 +18,9 @@ interface FiltersProps {
   handleCompleted: (e: boolean) => void;
   handleId: (id: never) => void;
   handleReset: () => void;
+  handleClose?: () => void;
   todos: ITodo[];
+  isMobile: boolean;
 }
 
 export const Filters: FC<FiltersProps> = ({
@@ -22,7 +28,9 @@ export const Filters: FC<FiltersProps> = ({
   handleCompleted,
   handleId,
   handleReset,
+  handleClose,
   todos,
+  isMobile,
 }) => {
   const [query, setQuery] = useState("");
   const [completed, setCompleted] = useState(false);
@@ -53,6 +61,9 @@ export const Filters: FC<FiltersProps> = ({
 
   return (
     <div className={classes.filters_container}>
+      {isMobile && (
+        <FontAwesomeIcon onClick={handleClose} icon={faClose}></FontAwesomeIcon>
+      )}
       <div className={classes.filters_container_title}>
         <span className="karbon-semibold">Filters</span>
       </div>

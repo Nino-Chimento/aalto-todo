@@ -67,6 +67,7 @@
   bottom: 5%;
   @media (max-width: $breakpoint-tablet) {
     bottom: 1%;
+    position: relative;
   }
   span {
     border-bottom: 2px solid #003479;
