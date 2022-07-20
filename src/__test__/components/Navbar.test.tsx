@@ -6,5 +6,5 @@ const setup = () => render(<NavBar></NavBar>);
 
 test("Footer renders correctly", () => {
   setup();
-  const img = screen.getByRole("img");
+  screen.getByRole("img");
 });
